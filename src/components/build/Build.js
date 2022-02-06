@@ -1,64 +1,101 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { Button, Container, ErrorDiv, Form, FormLabel, Header, MainContainer } from './BuildStyle';
+import { NewContext } from "../../context/NewContext";
+import axios from 'axios';
+import BuildLinks from "./BuildLinks";
 
 const initialValues = {
     name: "",
-    email: "",
-    userName: "",
-};
-
-const onSubmit = values => {
-    console.log("values: ", values);
+    description: "",
+    color: "",
 };
 
 const validationSchema = Yup.object({
     name: Yup.string()
-    .max(15,"Must be 15 characters or less")
+    .max(30,"Must be 30 characters or less")
     .required("Required. Enter name"),
 
-    userName: Yup.string()
-    .max(15,"Must be 15 characters or less")
-    .required("Required. Enter username"),
+    description: Yup.string()
+    .max(70,"Must be 70 characters or less")
+    .required("Required. Enter description"),
 
-    email: Yup.string()
-    .email("Invalid email address")
-    .required("Required. Enter email address"),
-
-    link: Yup.string()
-    .url("Invalid link address")
-    .required("Required. Enter a link")
+    color: Yup.string()
+    .required("Required. Select a color"),
 });
 
+function Build() {
+    const [isOpen, setIsOpen] = useState(true);
+    const { setTree } = useContext(NewContext);
+    
+    const onSubmit = values => {
+        // console.log("values: ", values);
+        const data = {
+            tree_title: values.name,
+            tree_description: values.description,
+            tree_color: values.color
+        }
+        
+        axios.post("https://dfcd2bcd-b4f7-4ad2-b6b1-654cead3f19b.mock.pstmn.io/buildtree", data)
+        .then(response => {
+            setTree(response.data);
+            setIsOpen(false);
+        })
+        .catch(error => {
+            alert("An error occurred, please resubmit! ", error);
+        })
+    };
 
-function SimpleRegister() {
     const formik = useFormik({
         initialValues,
         onSubmit,
         validationSchema,
     });
-    
+
     return (
-        <div className="container">
-            <h1>Simple Form</h1>
-            
-            <form className="formStyle" onSubmit={formik.handleSubmit}>
-                <label  htmlFor="name">Name</label>
-                <input type="text" id="name" name="name" onChange={formik.handleChange} value={formik.values.name} onBlur={formik.handleBlur}></input>
-                {formik.touched.name && formik.errors.name ? <div className="errorStyle">{formik.errors.name}</div> : null}
-                
-                <label  htmlFor="email">Email</label>
-                <input type="text" id="email" name="email" onChange={formik.handleChange} value={formik.values.email} onBlur={formik.handleBlur}></input>
-                {formik.touched.email && formik.errors.email ? <div className="errorStyle">{formik.errors.email}</div> : null}
+        <>
+        {isOpen ? (
+        <MainContainer>
+            <Header> Please  specify  your  linktree : </Header>
+            <Container>
+                <Form method='POST' onSubmit={formik.handleSubmit}>
+                    <FormLabel  htmlFor="name">Name:</FormLabel>
+                    <input type="text" id="name" name="name" onChange={formik.handleChange} value={formik.values.name} onBlur={formik.handleBlur} placeholder='Add linktree name'></input>
+                    {formik.touched.name && formik.errors.name ? <ErrorDiv>{formik.errors.name}</ErrorDiv> : <div style={{visibility:"hidden"}}></div>}
+                    <br/>
+                    <FormLabel  htmlFor="description">Description:</FormLabel>
+                    <input type="text" id="description" name="description" onChange={formik.handleChange} value={formik.values.description} onBlur={formik.handleBlur} placeholder='Enter a description'></input>
+                    {formik.touched.description && formik.errors.description ? <ErrorDiv>{formik.errors.description}</ErrorDiv> : <div style={{visibility:"hidden"}}></div>}
+                    <br/>
 
-                <label htmlFor="userName">User name</label>
-                <input type="text" id="userName" name="userName" onChange={formik.handleChange} value={formik.values.userName} onBlur={formik.handleBlur}></input>
-                {formik.touched.userName && formik.errors.userName ? <div className="errorStyle">{formik.errors.userName}</div> : null}
+                    <FormLabel htmlFor="color">Choose a color:</FormLabel>
+                <select id="colors" name="color" onChange={formik.handleChange} value={formik.values.color} onBlur={formik.handleBlur}>
+                        <option value="AQ">Aqua</option>
+                        <option value="BL">Blue</option>
+                        <option value="BR">Brown</option>
+                        <option value="GO">Gold</option>
+                        <option value="GE">Green</option>
+                        <option value="OR">Orange</option>
+                        <option value="PI">Pink</option>
+                        <option value="PU">Purple</option>
+                        <option value="RE">Red</option>
+                        <option value="VI">Violet</option>
+                    </select>
 
-                <button>Submit</button>
-            </form>
-        </div>
+                    {formik.touched.color && formik.errors.color ? <ErrorDiv>{formik.errors.color}</ErrorDiv> : <div style={{visibility:"hidden"}}></div>}
+                    <br/>
+
+                    <Button type='submit'>Submit</Button>
+                </Form>
+            </Container>
+            </MainContainer>
+            ) : (
+                <BuildLinks />
+            )}
+
+        </>
     )
 }
 
-export default SimpleRegister;
+export default Build;

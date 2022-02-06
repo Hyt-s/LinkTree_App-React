@@ -1,11 +1,15 @@
 import AppRouter from "./router/Router";
-import AuthContextProvider from "./context/AuthContext";
+import "./App.css";
+import MainContextProvider from "./context/MainContext";
+import NewContextProvider from "./context/NewContext";
 
 function App() {
   return (
-    <AuthContextProvider>
-      <AppRouter />
-    </AuthContextProvider>
+    <MainContextProvider>
+      <NewContextProvider>
+        <AppRouter />
+      </NewContextProvider>
+    </MainContextProvider>
   );
 };
 

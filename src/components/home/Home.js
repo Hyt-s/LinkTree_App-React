@@ -1,25 +1,12 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useContext } from "react";
+import { MainContext } from "../../context/MainContext";
 import Cards from "./Cards";
 import loadingGif from "../../assets/loading.gif";
 import { Header, MainContainer, Container, CardContainer, Image, ErrorDiv } from "./HomeStyle";
 
 const Home = () => {
-    const [trees, setTrees] = useState();
-  
-    const getData = () => {
-        axios.get("")
-        .then((response) => {
-            console.log("response: ", response);
-            setTrees(response.data)
-        }).catch((error) => {
-            console.log("error: ", error);
-        })
-    };
-
-    // useEffect(() => {
-    //     getData();
-    // }, [])
+  const { treesData } = useContext(MainContext);
+  // console.log("treesData: ", treesData);
 
     return (
       <MainContainer>
@@ -27,12 +14,12 @@ const Home = () => {
           <Header> ──── Dashboard ──── </Header>
         </Container>
         <Container>
-          {trees === undefined ? (
+          {treesData === undefined ? (
               <Image src={loadingGif} alt="loading" />
-          ) : trees ? (
+          ) : treesData ? (
             <CardContainer>
-              {trees?.map((item, id) => (
-                <Cards key={id} item={item} />
+              {treesData?.map((item, id) => (
+                <Cards key={id} item={item}/>
               ))}
             </CardContainer>
           ) : (

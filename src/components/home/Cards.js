@@ -1,16 +1,41 @@
-import React from 'react';
-import { Card, CardButton, CardHeader, CardDescription } from './HomeStyle';
+import React, { useContext } from "react";
+import { MainContext } from "../../context/MainContext";
+import { Card, CardButton, CardHeader, CardDescription, CardLinks } from './HomeStyle';
+
+let itemColor = "blue";
+const colorDict = {
+  "AQ": "aqua",
+  "BL": "blue",
+  "BR": "brown",
+  "GO": "gold",
+  "GE": "green",
+  "OR": "orange",
+  "PI": "pink",
+  "PU": "purple",
+  "RE": "red",
+  "VI": "violet",
+}
 
 const Cards = ({ item }) => {
-  // console.log(item)
+  const { linksData } = useContext(MainContext);
+  // console.log("linksData: ", linksData);
+  // console.log("item: ", item)
+
+  itemColor = colorDict[item?.tree_color];
 
   return (
-    <Card color = {item.color}>
-      <CardHeader>{item.title}</CardHeader>
-      <CardDescription>{item.description}</CardDescription>
-      {item.links.map((link) => {
-          <CardButton color={item.color}>{link}</CardButton>
-      })}
+    <Card>
+      <CardHeader>{item?.tree_title}</CardHeader>
+      <CardDescription>{item?.tree_description}</CardDescription>
+      <CardLinks>
+        {linksData && linksData.map((i) => {
+            if (i.tree === item?.id) {
+              return <CardButton key={i.id} href={i.link_url} itemColor={itemColor}>
+                  {i.link_title}
+              </CardButton>
+            }
+        })}
+      </CardLinks>
     </Card>
   );
 };
