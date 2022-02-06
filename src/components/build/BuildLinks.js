@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { useNavigate } from "react-router-dom";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { Button, Container, ErrorDiv, Form, FormLabel, Header, MainContainer, ButtonView, SubHeader } from './BuildStyle';
@@ -22,7 +23,8 @@ const validationSchema = Yup.object({
 
 function BuildLinks() {
     const { tree, links, setLinks } = useContext(NewContext);
-    
+    let navigate = useNavigate();
+
     const onSubmit = values => {
         // console.log("values: ", values);
         const data = {
@@ -46,6 +48,10 @@ function BuildLinks() {
         validationSchema,
     });
 
+    function viewButtonClick() {
+        navigate("/view");
+    }
+    
     return (
         <MainContainer>
             <Header> Please  enter  your  links : </Header>
@@ -64,7 +70,7 @@ function BuildLinks() {
                 </Form>
 
                 <SubHeader>if you finished, you can now watch your linktree.</SubHeader>
-                <ButtonView to="view">Go View</ButtonView>
+                <ButtonView onClick={viewButtonClick}>Go View</ButtonView>
             </Container>
         </MainContainer>
     )

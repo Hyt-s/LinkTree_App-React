@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 
 export const MainContainer = styled.div`
   display: flex;
@@ -72,7 +71,7 @@ export const SubHeader = styled.h6`
     font-size: 0.6rem;
   }
 `;
-export const ButtonView = styled(Link)`
+export const ButtonView = styled.div`
   padding: 0.8rem;
   cursor: pointer;
   text-align: center;

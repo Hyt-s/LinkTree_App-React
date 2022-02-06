@@ -30,7 +30,7 @@ function Build() {
     const { setTree } = useContext(NewContext);
     
     const onSubmit = values => {
-        // console.log("values: ", values);
+        console.log("values: ", values);
         const data = {
             tree_title: values.name,
             tree_description: values.description,
@@ -71,6 +71,7 @@ function Build() {
 
                     <FormLabel htmlFor="color">Choose a color:</FormLabel>
                 <select id="colors" name="color" onChange={formik.handleChange} value={formik.values.color} onBlur={formik.handleBlur}>
+                        <option value="BL">--Select color:--</option>
                         <option value="AQ">Aqua</option>
                         <option value="BL">Blue</option>
                         <option value="BR">Brown</option>

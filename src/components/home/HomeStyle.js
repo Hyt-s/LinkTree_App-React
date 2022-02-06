@@ -23,6 +23,9 @@ export const Header = styled.h1`
   text-align: center;
   color: #02475E;
   width: 100%;
+  @media (max-width: 768px) {
+    font-size: 1.2rem;
+  }
 `;
 export const Image = styled.img`
   height: 150px;
