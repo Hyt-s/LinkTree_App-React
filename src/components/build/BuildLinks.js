@@ -27,18 +27,25 @@ function BuildLinks() {
 
     const onSubmit = values => {
         // console.log("values: ", values);
+        // console.log("tree", tree);
+        let header = document.querySelector(".linkHeader")
+        header.innerHTML="PLEASE WAIT"
+
         const data = {
             link_title: values.title,
             link_url: values.link,
-            tree: tree?.tree_id
+            tree: tree?.id
         }
-        axios.post("https://dfcd2bcd-b4f7-4ad2-b6b1-654cead3f19b.mock.pstmn.io/buildlink", data)
+        axios.post("https://link-tree-app.herokuapp.com/links/", data)
         .then(response => {
             links.push(response.data)
             setLinks(links);
+            alert("The link has been successfully added. You can add a new one.")
+            header.innerHTML="Please  enter  your  new links :"
         })
         .catch(error => {
             alert("An error occurred, please resubmit! ", error);
+            header.innerHTML="Please  enter  your  new links :"
         })
     };
 
@@ -54,7 +61,7 @@ function BuildLinks() {
     
     return (
         <MainContainer>
-            <Header> Please  enter  your  links : </Header>
+            <Header className='linkHeader'> Please  enter  your  links : </Header>
             <Container>
                 <Form method='POST' onSubmit={formik.handleSubmit}>
                     <FormLabel  htmlFor="title">Link title:</FormLabel>

@@ -30,14 +30,14 @@ function Build() {
     const { setTree } = useContext(NewContext);
     
     const onSubmit = values => {
-        console.log("values: ", values);
+        // console.log("values: ", values);
         const data = {
             tree_title: values.name,
             tree_description: values.description,
             tree_color: values.color
         }
         
-        axios.post("https://dfcd2bcd-b4f7-4ad2-b6b1-654cead3f19b.mock.pstmn.io/buildtree", data)
+        axios.post("https://link-tree-app.herokuapp.com/linktree/", data)
         .then(response => {
             setTree(response.data);
             setIsOpen(false);

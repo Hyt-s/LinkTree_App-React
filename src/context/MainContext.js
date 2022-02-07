@@ -8,22 +8,22 @@ function MainContextProvider(props) {
   const [linksData, setLinksData] = useState();
   
   const getTreesData = () => {
-      axios.get("https://a2001172-a3b0-41ec-9205-e54280df4ac5.mock.pstmn.io/linktree")
+      axios.get("https://link-tree-app.herokuapp.com/linktree/")
       .then((response) => {
-          console.log("response: ", response);
+        //   console.log("response: ", response);
           setTreesData(response.data)
       }).catch((error) => {
-          console.log("error: ", error);
+          alert("An error occurred, please reload!", error);
       })
   };
 
   const getLinksData = () => {
-      axios.get("https://a2001172-a3b0-41ec-9205-e54280df4ac5.mock.pstmn.io/links")
+      axios.get("https://link-tree-app.herokuapp.com/links/")
       .then((response) => {
-          console.log("response: ", response);
+        //   console.log("response: ", response);
           setLinksData(response.data)
       }).catch((error) => {
-          console.log("error: ", error);
+          alert("An error occurred, please reload!", error);
       })
   };
 

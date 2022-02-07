@@ -18,8 +18,8 @@ const colorDict = {
 
 const View = () => {
   const { tree, links } = useContext(NewContext);
-  console.log("tree: ", tree);
-  console.log("links: ", links);
+//   console.log("tree: ", tree);
+//   console.log("links: ", links);
 
   itemColor = colorDict[tree?.tree_color];
 
